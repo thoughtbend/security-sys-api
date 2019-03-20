@@ -1,5 +1,8 @@
 package com.thoughtbend.securitysysapi.web.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.EntityLinks;
@@ -33,13 +36,14 @@ public class SecurityController {
 
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public HttpEntity<Resource<SecurityProfile>> getLogin(@RequestParam("username") final String username) {
+	public HttpEntity<Resource<SecurityProfile>> getLogin(@RequestParam("username") final String username) throws UnknownHostException {
 		
 		LOG.info(String.format("Call /api/login - GET (%1$s)", username));
+		InetAddress address = InetAddress.getLocalHost();
 		
 		final SecurityProfile profile = new SecurityProfile();
 		
-		profile.setUsername(username);
+		profile.setUsername(String.format("%1$s @ %2$s", username, address.getHostName() + "/" + address.getHostAddress()));
 		
 		final Link selfLink = this.entityLinks.linkToSingleResource(SecurityProfile.class, username);
 		
