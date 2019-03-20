@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: security-sys-api-nonprod-rc
+spec:
+  replicas: 2
+  selector:
+    app: security-sys-api-nonprod
+  template:
+    metadata:
+      labels:
+        app: security-sys-api-nonprod
+    spec:
+      containers:
+      - name: security-sys-api-nonprod-pod
+        image: mnolan98/security-sys-api:0.0.1
+        ports:
+        - containerPort: 8080

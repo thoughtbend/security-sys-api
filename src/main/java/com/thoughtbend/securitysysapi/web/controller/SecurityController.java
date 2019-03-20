@@ -2,9 +2,11 @@ package com.thoughtbend.securitysysapi.web.controller;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Link;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.thoughtbend.securitysysapi.data.entity.SecUser;
+import com.thoughtbend.securitysysapi.data.repository.SecUserRepository;
 import com.thoughtbend.securitysysapi.web.resources.SecurityProfile;
 
 @Controller
@@ -27,6 +31,9 @@ import com.thoughtbend.securitysysapi.web.resources.SecurityProfile;
 public class SecurityController {
 	
 	private final static Logger LOG = LoggerFactory.getLogger(SecurityController.class);
+	
+	@Autowired
+	private SecUserRepository secUserRepository = null;
 	
 	private final EntityLinks entityLinks;
 	
@@ -39,6 +46,14 @@ public class SecurityController {
 	public HttpEntity<Resource<SecurityProfile>> getLogin(@RequestParam("username") final String username) throws UnknownHostException {
 		
 		LOG.info(String.format("Call /api/login - GET (%1$s)", username));
+		
+		System.out.println(secUserRepository.count());
+		Optional<SecUser> secUserOptional = secUserRepository.findById(1L);
+		
+		secUserOptional.ifPresent(secUser -> {
+			System.out.println(secUser.getUsername());
+		});
+		
 		InetAddress address = InetAddress.getLocalHost();
 		
 		final SecurityProfile profile = new SecurityProfile();
