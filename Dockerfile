@@ -8,6 +8,6 @@ LABEL application="security-sys-api" api-layer="sys"
 
 EXPOSE 8080
 
-COPY target/security-sys-api-0.0.1-SNAPSHOT.jar app.jar
+COPY target/security-sys-api-0.0.3-SNAPSHOT.jar app.jar
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-jar","-Dspring.profiles.active=nonprodserver","/app.jar"]

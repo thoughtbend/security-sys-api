@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
       - name: security-sys-api-nonprod-pod
-        image: mnolan98/security-sys-api:0.0.1
+        image: mnolan98/security-sys-api:0.0.4
         ports:
         - containerPort: 8080
