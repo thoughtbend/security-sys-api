@@ -3,7 +3,7 @@ kind: ReplicationController
 metadata:
   name: security-sys-api-nonprod-rc
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     app: security-sys-api-nonprod
   template:
@@ -13,6 +13,17 @@ spec:
     spec:
       containers:
       - name: security-sys-api-nonprod-pod
-        image: mnolan98/security-sys-api:0.0.4
+        image: mnolan98/security-sys-api:0.0.5
         ports:
         - containerPort: 8080
+        env:
+        - name: SECDB_USER_ACCT
+          valueFrom:
+            secretKeyRef:
+              name: security-db-creds
+              key: username
+        - name: SECDB_USER_PASS
+          valueFrom:
+            secretKeyRef:
+              name: security-db-creds
+              key: password
