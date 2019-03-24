@@ -72,8 +72,7 @@
 				<configuration>
 					<repository>${docker.image.prefix}/${project.artifactId}</repository>
 					<imageTags>
-
-						<imageTag>latest</imageTag>
+						<imageTag>latest</imageTag> 
 						<imageTag>${project.version}</imageTag>
 					</imageTags>
 				</configuration>
