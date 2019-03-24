@@ -1,4 +1,4 @@
-CREATE TABLE `secstore`.`secuser` (
+CREATE TABLE `secstore`.`sec_user` (
   `id` INT NOT NULL,
   `username` VARCHAR(50) NOT NULL,
   `password` VARCHAR(50) NOT NULL,
@@ -6,3 +6,7 @@ CREATE TABLE `secstore`.`secuser` (
   `password_update_date` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC));
+
+    
+insert into secstore.sec_user
+values (1, 'mnolan', 'passw0rd', current_timestamp(), current_timestamp());

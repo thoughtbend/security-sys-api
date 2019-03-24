@@ -4,19 +4,27 @@ metadata:
   name: security-sys-api-nonprod-rc
 spec:
   replicas: 1
+  minReadySeconds: 5
+  progressDeadlineSecondsd: 60
   selector:
     app: security-sys-api-nonprod
+    targetEnv: dev
   template:
     metadata:
       labels:
         app: security-sys-api-nonprod
+        targetEnv: dev
     spec:
       containers:
       - name: security-sys-api-nonprod-pod
-        image: mnolan98/security-sys-api:0.0.6
-        imagePullPolicy: IfNotPresent
+        image: mnolan98/security-sys-api:0.0.7
+#        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
+        livenessProbe: 
+          periodSeconds: 5
+          httpGet:
+            path: /security-sys-api-health
         env:
         - name: SECDB_USER_ACCT
           valueFrom:
