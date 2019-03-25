@@ -1,22 +1,33 @@
-apiVersion: v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: security-sys-api-nonprod-deployment
 spec:
   replicas: 1
   selector:
-    app: security-sys-api-nonprod
+    matchLabels:
+      app: security-sys-api-nonprod
+      targetEnv: dev
   template:
     metadata:
       labels:
         app: security-sys-api-nonprod
+        targetEnv: dev
     spec:
       containers:
       - name: security-sys-api-nonprod-pod
-        image: mnolan98/security-sys-api:0.0.7
+        image: mnolan98/security-sys-api:0.0.8
 #        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
+        livenessProbe: 
+          httpGet:
+            port: 8080
+            path: /api/security-sys-api-health
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 3
+          initialDelaySeconds: 5
         env:
         - name: SECDB_USER_ACCT
           valueFrom:
@@ -28,3 +39,4 @@ spec:
             secretKeyRef:
               name: security-db-creds
               key: password
+  

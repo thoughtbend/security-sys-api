@@ -21,10 +21,6 @@ spec:
 #        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
-        livenessProbe: 
-          periodSeconds: 5
-          httpGet:
-            path: /security-sys-api-health
         env:
         - name: SECDB_USER_ACCT
           valueFrom:
