@@ -12,7 +12,7 @@ spec:
 # NodePort for exposing the the port outside the cluster, on top of stable internal ip
 # LoadBalancer integrates NodePort with cloud-based load balancer
   ports:
-  - port: 80
+  - port: 443
     nodePort: 30003
     protocol: TCP
   selector:

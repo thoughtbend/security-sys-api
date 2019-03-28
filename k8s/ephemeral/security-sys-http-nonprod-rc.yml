@@ -3,7 +3,7 @@ kind: ReplicationController
 metadata:
   name: security-sys-http-nonprod-rc
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     app: security-sys-http-nonprod
   template:
@@ -15,8 +15,16 @@ spec:
       - name: security-sys-http-nonprod-pod
         image: nginx
         ports:
-        - containerPort: 80
+        - containerPort: 443
         volumeMounts: 
+        - mountPath: /etc/nginx/thoughtbend.crt
+          subPath: thoughtbend.crt
+          name: tls-cert-files
+          readOnly: true
+        - mountPath: /etc/nginx/thoughtbend.key
+          subPath: thoughtbend.key
+          name: tls-cert-files
+          readOnly: true
         - mountPath: /etc/nginx/conf.d/default.conf
           subPath: default.conf
           name: default-conf-file
@@ -24,3 +32,6 @@ spec:
       - name: default-conf-file
         configMap:
           name: sec-sys-http-nonprod-default-conf
+      - name: tls-cert-files
+        secret:
+          secretName: security-http-tls-cert
